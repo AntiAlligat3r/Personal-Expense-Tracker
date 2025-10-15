@@ -88,19 +88,24 @@ namespace Personal_Expense_Tracker
 
             return ((_specialChars = true) && (_validEmail = true) && (_uppercase = true) && (_numbers = true)) ? true : false;
         }
-        
+
         private string hashPassword(string password, out byte[] saltKey)
         {
-            new RNGCryptoServiceProvider().GetBytes(saltKey = new byte[keySize]);
-            Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltKey, iterations);
+            saltKey = new byte[keySize];
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(saltKey);
+            }
+            using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltKey, iterations))
+            {
+                byte[] hashKey = pbkdf2.GetBytes(keySize);
+                byte[] hashPasswordBytes = new byte[keySize * 2];
 
-            byte[] hashKey = pbkdf2.GetBytes(keySize);
-            byte[] hashPasswordBytes = new byte[(keySize * 2)];
-            Array.Copy(saltKey, 0, hashPasswordBytes, 0, keySize);
-            Array.Copy(hashKey, 0, hashPasswordBytes, keySize, (keySize*2));
+                Array.Copy(saltKey, 0, hashPasswordBytes, 0, keySize);
+                Array.Copy(hashKey, 0, hashPasswordBytes, keySize, keySize);
 
-            string hashedPassword = Convert.ToBase64String(hashPasswordBytes);
-            return hashedPassword;
+                return Convert.ToBase64String(hashPasswordBytes);
+            }
         }
         private void btnCreateAccount_Click(object sender, EventArgs e)
         {
