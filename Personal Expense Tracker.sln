@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personal Expense Tracker", "Personal Expense Tracker\Personal Expense Tracker.csproj", "{FD1F15BF-C675-43FE-8552-9723B116DE4F}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database1", "Database1\Database1.sqlproj", "{222DE060-61BE-419A-91FC-B8F8DC9B25A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD1F15BF-C675-43FE-8552-9723B116DE4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1F15BF-C675-43FE-8552-9723B116DE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1F15BF-C675-43FE-8552-9723B116DE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1F15BF-C675-43FE-8552-9723B116DE4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{222DE060-61BE-419A-91FC-B8F8DC9B25A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{222DE060-61BE-419A-91FC-B8F8DC9B25A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{222DE060-61BE-419A-91FC-B8F8DC9B25A2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{222DE060-61BE-419A-91FC-B8F8DC9B25A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{222DE060-61BE-419A-91FC-B8F8DC9B25A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{222DE060-61BE-419A-91FC-B8F8DC9B25A2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6CD05AC-02C3-4569-86B6-304468E333B6}
+	EndGlobalSection
+EndGlobal
