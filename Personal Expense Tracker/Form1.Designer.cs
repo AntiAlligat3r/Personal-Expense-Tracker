@@ -49,6 +49,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlLogin = new System.Windows.Forms.Panel();
+            this.lblLoginPassword = new System.Windows.Forms.Label();
+            this.txtLoginPassword = new System.Windows.Forms.TextBox();
+            this.lblLoginUsername = new System.Windows.Forms.Label();
+            this.txtLoginUsername = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnShowAccountPanel = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dbExpenseTrackerDataSet1)).BeginInit();
@@ -64,12 +69,13 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(162, 160);
+            this.btnLogin.Location = new System.Drawing.Point(243, 160);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 0;
             this.btnLogin.Text = "&Log in";
             this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // btnCreateAccount
             // 
@@ -84,7 +90,7 @@
             // hplkResetPassword
             // 
             this.hplkResetPassword.AutoSize = true;
-            this.hplkResetPassword.Location = new System.Drawing.Point(159, 186);
+            this.hplkResetPassword.Location = new System.Drawing.Point(240, 186);
             this.hplkResetPassword.Name = "hplkResetPassword";
             this.hplkResetPassword.Size = new System.Drawing.Size(84, 13);
             this.hplkResetPassword.TabIndex = 2;
@@ -102,7 +108,6 @@
             // 
             // pnlAccountCreation
             // 
-            this.pnlAccountCreation.Controls.Add(this.button1);
             this.pnlAccountCreation.Controls.Add(this.ckbxShowPassword);
             this.pnlAccountCreation.Controls.Add(this.lblErrorEmail);
             this.pnlAccountCreation.Controls.Add(this.lblErrorPassword);
@@ -258,18 +263,66 @@
             // 
             // pnlLogin
             // 
+            this.pnlLogin.Controls.Add(this.lblLoginPassword);
+            this.pnlLogin.Controls.Add(this.txtLoginPassword);
+            this.pnlLogin.Controls.Add(this.lblLoginUsername);
+            this.pnlLogin.Controls.Add(this.txtLoginUsername);
+            this.pnlLogin.Controls.Add(this.label3);
             this.pnlLogin.Controls.Add(this.btnShowAccountPanel);
             this.pnlLogin.Controls.Add(this.btnLogin);
             this.pnlLogin.Controls.Add(this.hplkResetPassword);
-            this.pnlLogin.Location = new System.Drawing.Point(39, 254);
+            this.pnlLogin.Location = new System.Drawing.Point(12, 12);
             this.pnlLogin.Name = "pnlLogin";
-            this.pnlLogin.Size = new System.Drawing.Size(426, 299);
+            this.pnlLogin.Size = new System.Drawing.Size(619, 299);
             this.pnlLogin.TabIndex = 6;
+            // 
+            // lblLoginPassword
+            // 
+            this.lblLoginPassword.AutoSize = true;
+            this.lblLoginPassword.Location = new System.Drawing.Point(249, 111);
+            this.lblLoginPassword.Name = "lblLoginPassword";
+            this.lblLoginPassword.Size = new System.Drawing.Size(53, 13);
+            this.lblLoginPassword.TabIndex = 16;
+            this.lblLoginPassword.Text = "Password";
+            // 
+            // txtLoginPassword
+            // 
+            this.txtLoginPassword.Location = new System.Drawing.Point(224, 127);
+            this.txtLoginPassword.Name = "txtLoginPassword";
+            this.txtLoginPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtLoginPassword.TabIndex = 15;
+            // 
+            // lblLoginUsername
+            // 
+            this.lblLoginUsername.AutoSize = true;
+            this.lblLoginUsername.Location = new System.Drawing.Point(249, 72);
+            this.lblLoginUsername.Name = "lblLoginUsername";
+            this.lblLoginUsername.Size = new System.Drawing.Size(55, 13);
+            this.lblLoginUsername.TabIndex = 14;
+            this.lblLoginUsername.Text = "Username";
+            // 
+            // txtLoginUsername
+            // 
+            this.txtLoginUsername.Location = new System.Drawing.Point(224, 88);
+            this.txtLoginUsername.Name = "txtLoginUsername";
+            this.txtLoginUsername.Size = new System.Drawing.Size(100, 20);
+            this.txtLoginUsername.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(185, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(194, 40);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Personal Expense Tracker\r\nLogin";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnShowAccountPanel
             // 
             this.btnShowAccountPanel.ForeColor = System.Drawing.Color.Black;
-            this.btnShowAccountPanel.Location = new System.Drawing.Point(155, 202);
+            this.btnShowAccountPanel.Location = new System.Drawing.Point(236, 202);
             this.btnShowAccountPanel.Name = "btnShowAccountPanel";
             this.btnShowAccountPanel.Size = new System.Drawing.Size(91, 23);
             this.btnShowAccountPanel.TabIndex = 11;
@@ -279,23 +332,25 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(485, 176);
+            this.button1.Location = new System.Drawing.Point(236, 370);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
+            this.button1.TabIndex = 7;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+
             // 
             // frmCreationLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 450);
+            this.ClientSize = new System.Drawing.Size(642, 606);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pnlLogin);
             this.Controls.Add(this.pnlAccountCreation);
             this.Name = "frmCreationLogin";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCreationLogin_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dbExpenseTrackerDataSet1)).EndInit();
             this.pnlAccountCreation.ResumeLayout(false);
             this.pnlAccountCreation.PerformLayout();
@@ -330,6 +385,11 @@
         private System.Windows.Forms.Panel pnlLogin;
         private System.Windows.Forms.Button btnShowAccountPanel;
         private System.Windows.Forms.CheckBox ckbxShowPassword;
+        private System.Windows.Forms.Label lblLoginPassword;
+        private System.Windows.Forms.TextBox txtLoginPassword;
+        private System.Windows.Forms.Label lblLoginUsername;
+        private System.Windows.Forms.TextBox txtLoginUsername;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
     }
 }

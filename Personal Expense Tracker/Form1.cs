@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Policy;
@@ -17,7 +18,7 @@ namespace Personal_Expense_Tracker
     {
         const int keySize = 128;
         const int iterations = 350000;
-        HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
+        publicClasses publicClasses = new publicClasses();
 
         public frmCreationLogin()
         {
@@ -89,13 +90,18 @@ namespace Personal_Expense_Tracker
             return ((_specialChars = true) && (_validEmail = true) && (_uppercase = true) && (_numbers = true)) ? true : false;
         }
 
-        private string hashPassword(string password, out byte[] saltKey)
+        private byte[] getSalt()
         {
-            saltKey = new byte[keySize];
+            byte[] saltKey = new byte[keySize];
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
             {
                 rng.GetBytes(saltKey);
             }
+            return saltKey;
+        }
+
+        private string hashPassword(string password, byte[] saltKey)
+        {
             using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltKey, iterations))
             {
                 byte[] hashKey = pbkdf2.GetBytes(keySize);
@@ -112,22 +118,29 @@ namespace Personal_Expense_Tracker
             if(validateAccountCreationInput())
             {
                 SqlConnection connString = openDbConnection();
+                byte[] _sltByteKey = getSalt();
+                string _password = hashPassword(txtPassword.Text, _sltByteKey);
                 try
                 {
-                    
-                    using (SqlCommand createUserQuery = new SqlCommand("INSERT INTO Users (Username,Password,Email) Values(@username,@password,@email)",connString))
+                    using (SqlCommand createUserQuery = new SqlCommand("INSERT INTO Users (Username,Password,Email,Salt) Values(@username,@password,@email,@salt)",connString))
                     {
                         createUserQuery.Parameters.AddWithValue("@username", txtUsername.Text);
-                        createUserQuery.Parameters.AddWithValue("@password", txtPassword.Text);
+                        createUserQuery.Parameters.AddWithValue("@password", _password);
                         createUserQuery.Parameters.AddWithValue("@email", txtEmail.Text);
+                        createUserQuery.Parameters.AddWithValue("@salt", _sltByteKey);
                         createUserQuery.ExecuteNonQuery();
                     }
+                    MessageBox.Show("User: " + txtUsername.Text + " has successfully been created", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    pnlAccountCreation.Visible = false;
+                    pnlLogin.Visible = true;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                 }
                 connString.Close();
+                _sltByteKey = null;
+                _password = null;
             }
         }
 
@@ -160,8 +173,63 @@ namespace Personal_Expense_Tracker
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string _password = hashPassword(txtPassword.Text, out byte[] saltKey);
-            MessageBox.Show(_password);
+            
+            
         }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            SqlConnection connString = openDbConnection();
+            string _hashedPassword;
+            string _storedSalt;
+            bool _isPasswordAccepted;
+            try
+            {
+                using (SqlCommand LoginQuery = new SqlCommand("SELECT Username,Password,Salt from Users WHERE Username = @username", connString))
+                {
+                    LoginQuery.Parameters.AddWithValue("username", txtLoginUsername.Text);
+                    LoginQuery.ExecuteNonQuery();
+                    using (SqlDataReader loginCredentials = LoginQuery.ExecuteReader())
+                    {
+                        loginCredentials.Read();
+                        _hashedPassword = loginCredentials.GetString(2);
+                        _storedSalt = loginCredentials.GetString(4);
+                    }
+                }
+                try
+                {
+                    string _password = hashPassword(txtLoginPassword.Text, Convert.FromBase64String(_storedSalt));
+                    _isPasswordAccepted = _password == _hashedPassword ? true : false;
+
+                    if (_isPasswordAccepted)
+                    {
+                        MessageBox.Show("Welcome " + txtLoginUsername.Text, "Successful login");
+                        publicClasses.setUsername(txtLoginUsername.Text);
+
+                        mainForm mainForm = new mainForm();
+                        mainForm.Show();
+                        this.Hide();
+                    }
+                }
+                catch (Exception loginPasswordHashingError)
+                {
+                    MessageBox.Show(loginPasswordHashingError.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            connString.Close();
+        }
+
+        private void frmCreationLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+
+            if (!publicClasses.exitProgram())
+                e.Cancel = true;                
+        }
+
     }
 }
